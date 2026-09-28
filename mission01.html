@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MISSION 01</title>
+
+    <style>
+
+        body {
+            background-color: #111;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 40px 20px;
+        }
+
+        h1 {
+            margin-top: 20px;
+            letter-spacing: 6px;
+            font-size: 36px;
+        }
+
+        h2 {
+            letter-spacing: 4px;
+            font-size: 20px;
+            font-weight: normal;
+        }
+
+        .subtitle {
+            color: #999;
+            font-style: italic;
+            margin-bottom: 30px;
+        }
+
+        #chessboard {
+            width: 480px;
+            max-width: 90vw;
+            margin: 30px auto;
+        }
+
+        #chessboard img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .answer-section {
+            margin-top: 30px;
+        }
+
+        #answer {
+            padding: 12px;
+            width: 200px;
+            max-width: 70vw;
+            font-size: 18px;
+            text-align: center;
+            background-color: #222;
+            color: white;
+            border: 1px solid #666;
+            outline: none;
+        }
+
+        button {
+            padding: 12px 22px;
+            margin-left: 5px;
+            font-size: 16px;
+            background-color: white;
+            color: black;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #ccc;
+        }
+
+        #result {
+            margin-top: 25px;
+            font-size: 20px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            min-height: 25px;
+        }
+
+        .hint-button {
+            position: fixed;
+            bottom: 20px;
+            right: 25px;
+            width: 30px;
+            height: 30px;
+            border: 1px solid #444;
+            border-radius: 50%;
+            background-color: #111;
+            color: #555;
+            font-size: 15px;
+            padding: 0;
+            cursor: pointer;
+        }
+
+        .hint-button:hover {
+            color: white;
+            border-color: #777;
+        }
+
+        #hint {
+            display: none;
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 320px;
+            max-width: 80vw;
+            padding: 25px;
+            background-color: #181818;
+            border: 1px solid #555;
+            box-shadow: 0 0 30px rgba(0,0,0,0.8);
+            z-index: 10;
+        }
+
+        #hint h3 {
+            letter-spacing: 3px;
+            margin-top: 0;
+        }
+
+        #hint p {
+            color: #aaa;
+            line-height: 1.6;
+        }
+
+        #closeHint {
+            margin-top: 15px;
+            background-color: #ddd;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+    <h1>MISSION 01</h1>
+
+    <h2>JUST ONE MOVE</h2>
+
+    <p class="subtitle">
+        Nothing is black and white. Except this game.
+    </p>
+
+
+    <div id="chessboard">
+
+        <img src="Chess.png" alt="Chess position">
+
+    </div>
+
+
+    <div class="answer-section">
+
+        <input
+            type="text"
+            id="answer"
+            autocomplete="off"
+        >
+
+        <button onclick="checkAnswer()">
+            SUBMIT
+        </button>
+
+        <p id="result"></p>
+
+    </div>
+
+
+    <button
+        class="hint-button"
+        onclick="showHint()"
+        title="?"
+    >
+        ?
+    </button>
+
+
+    <div id="hint">
+
+        <h3>HINT 01</h3>
+
+        <p>
+            ◇ — She moves with grace, like a rose.
+        </p>
+
+        <p>
+            △ — He moves in silence, from afar.
+        </p>
+
+        <p>
+            □ — It stands firm, never bending.
+        </p>
+
+        <button
+            id="closeHint"
+            onclick="closeHint()"
+        >
+            CLOSE
+        </button>
+
+    </div>
+
+
+    <script>
+
+        function checkAnswer() {
+
+            let answer = document.getElementById("answer").value.trim();
+
+            if (
+                answer === "QB8" ||
+                answer === "Qb8" ||
+                answer === "qb8" ||
+                answer === "QB8#" ||
+                answer === "Qb8#" ||
+                answer === "qb8#"
+            ) {
+
+                document.getElementById("result").innerText =
+                    "ACCESS GRANTED.";
+
+
+                window.location.href = "mission02.html";
+
+            } else {
+
+                document.getElementById("result").innerText =
+                    "ACCESS DENIED.";
+
+            }
+
+        }
+
+
+        function showHint() {
+
+            document.getElementById("hint").style.display = "block";
+
+        }
+
+
+        function closeHint() {
+
+            document.getElementById("hint").style.display = "none";
+
+        }
+
+
+        document.getElementById("answer").addEventListener(
+            "keypress",
+            function(event) {
+
+                if (event.key === "Enter") {
+                    checkAnswer();
+                }
+
+            }
+        );
+
+    </script>
+
+</body>
+
+</html>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MISSION 02</title>
+
+    <style>
+
+        body {
+            background-color: #042616;
+            color: rgba(15, 190, 24, 0.93);
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 40px 20px;
+        }
+
+        h1 {
+            margin-top: 20px;
+            letter-spacing: 6px;
+            font-size: 36px;
+        }
+
+        h2 {
+            letter-spacing: 4px;
+            font-size: 20px;
+            font-weight: normal;
+        }
+
+        .subtitle {
+            color: #999;
+            font-style: italic;
+            margin-bottom: 30px;
+        }
+
+        #chessboard {
+            width: 480px;
+            max-width: 90vw;
+            margin: 30px auto;
+        }
+
+        #chessboard img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .answer-section {
+            margin-top: 30px;
+        }
+
+        #answer {
+            padding: 12px;
+            width: 200px;
+            max-width: 70vw;
+            font-size: 18px;
+            text-align: center;
+            background-color: #222;
+            color: white;
+            border: 1px solid #666;
+            outline: none;
+        }
+
+        button {
+            padding: 12px 22px;
+            margin-left: 5px;
+            font-size: 16px;
+            background-color: white;
+            color: black;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #ccc;
+        }
+
+        #result {
+            margin-top: 25px;
+            font-size: 20px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            min-height: 25px;
+        }
+
+
+
+
+
+
