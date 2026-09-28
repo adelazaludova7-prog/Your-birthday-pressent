@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MISSION 04</title>
+
+    <style>
+
+        body {
+            background-color: #111;
+            color: rgb(255, 0, 0);
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 40px 20px;
+        }
+
+        h1 {
+            margin-top: 20px;
+            letter-spacing: 6px;
+            font-size: 36px;
+        }
+
+        h2 {
+            letter-spacing: 4px;
+            font-size: 20px;
+            font-weight: normal;
+        }
+
+        .subtitle {
+            color: #ff9393;
+            font-style: italic;
+            margin-bottom: 30px;
+        }
+
+        .metro-map {
+            width: 400px;
+            max-width: 80vw;
+            height: auto;
+            margin: 30px auto;
+            display: block;
+        }
+
+        .stations {
+            margin-top: 30px;
+        }
+
+        .station {
+            margin: 18px 0;
+        }
+
+        .station p {
+            margin-bottom: 8px;
+            letter-spacing: 2px;
+        }
+
+        .station input,
+        #coordinates {
+            padding: 12px;
+            width: 220px;
+            max-width: 70vw;
+            font-size: 18px;
+            text-align: center;
+            background-color: #222;
+            color: white;
+            border: 1px solid #666;
+            outline: none;
+        }
+
+        button {
+            padding: 12px 22px;
+            margin-left: 5px;
+            font-size: 16px;
+            background-color: white;
+            color: black;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #ccc;
+        }
+
+        #result {
+            margin-top: 25px;
+            font-size: 20px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            min-height: 25px;
+        }
+
+        #coordinates-section {
+            display: none;
+            margin-top: 60px;
+        }
+
+        .attempt {
+            margin-top: 35px;
+            letter-spacing: 3px;
+            font-weight: bold;
+        }
+
+        .hint-button {
+            position: fixed;
+            bottom: 20px;
+            right: 25px;
+            width: 30px;
+            height: 30px;
+            border: 1px solid #444;
+            border-radius: 50%;
+            background-color: #111;
+            color: #555;
+            font-size: 15px;
+            padding: 0;
+            cursor: pointer;
+        }
+
+        .hint-button:hover {
+            color: white;
+            border-color: #777;
+        }
+
+        #hint {
+            display: none;
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 320px;
+            max-width: 80vw;
+            padding: 25px;
+            background-color: #181818;
+            border: 1px solid #555;
+            box-shadow: 0 0 30px rgba(0,0,0,0.8);
+            z-index: 10;
+        }
+
+        #hint h3 {
+            letter-spacing: 3px;
+            margin-top: 0;
+        }
+
+        #hint p {
+            color: #aaa;
+            line-height: 1.6;
+        }
+
+        #closeHint {
+            margin-top: 15px;
+            background-color: #ddd;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+    <h1>MISSION 04</h1>
+
+    <h2>CHAOS</h2>
+
+    <p class="subtitle">
+        Find 4 our places and give them name.
+    </p>
+
+
+    <!-- FIRST PART -->
+
+    <img class="metro-map" src="mmap01.png" alt="Metro map">
+
+
+    <div class="stations">
+
+        <div class="station">
+            <p>STATION 01</p>
+            <input type="text" id="station1" autocomplete="off">
+        </div>
+
+        <div class="station">
+            <p>STATION 02</p>
+            <input type="text" id="station2" autocomplete="off">
+        </div>
+
+        <div class="station">
+            <p>STATION 03</p>
+            <input type="text" id="station3" autocomplete="off">
+        </div>
+
+        <div class="station">
+            <p>STATION 04</p>
+            <input type="text" id="station4" autocomplete="off">
+        </div>
+
+    </div>
+
+
+    <button onclick="checkStations()">
+        SUBMIT
+    </button>
+
+    <p id="station-result"></p>
+
+
+    <!-- SECOND PART -->
+
+    <div id="coordinates-section">
+
+        <h2>SECOND STEP</h2>
+
+        <p class="subtitle">
+            Find the coordinates.
+        </p>
+
+
+        <img
+            class="metro-map"
+            src="mmap02.png"
+            alt="Coordinates map"
+        >
+
+
+        <p class="attempt">
+            YOU HAVE JUST ONE ATTEMPT
+        </p>
+
+
+        <input
+            type="text"
+            id="coordinates"
+            autocomplete="off"
+            placeholder="ENTER CODE"
+        >
+
+
+        <button onclick="checkCoordinates()">
+            SUBMIT
+        </button>
+
+
+        <p id="result"></p>
+
+    </div>
+
+
+    <!-- CLUE -->
+
+    <button
+        class="hint-button"
+        onclick="showHint()"
+        title="CLUE"
+    >
+        ?
+    </button>
+
+
+    <div id="hint">
+
+        <h3>CLUE</h3>
+
+        <p>
+            "The best day of my life."
+        </p>
+
+        <button id="closeHint" onclick="closeHint()">
+            CLOSE
+        </button>
+
+    </div>
+
+
+    <script>
+
+
+        // FIRST PART – STATIONS
+
+        function checkStations() {
+
+            let station1 = document.getElementById("station1").value
+                .trim()
+                .toLowerCase()
+                .replace(/\s+/g, " ");
+
+            let station2 = document.getElementById("station2").value
+                .trim()
+                .toLowerCase()
+                .replace(/\s+/g, " ");
+
+            let station3 = document.getElementById("station3").value
+                .trim()
+                .toLowerCase()
+                .replace(/\s+/g, " ");
+
+            let station4 = document.getElementById("station4").value
+                .trim()
+                .toLowerCase()
+                .replace(/\s+/g, " ");
+
+
+            let correct1 =
+                station1 === "ottaviano";
+
+            let correct2 =
+                station2 === "muzeum";
+
+            let correct3 =
+                station3 === "termini";
+
+            let correct4 =
+                station4 === "depo hostivař" ||
+                station4 === "depo hostivar" ||
+                station4 === "depohostivař" ||
+                station4 === "depohostivar";
+
+
+            if (
+                correct1 &&
+                correct2 &&
+                correct3 &&
+                correct4
+            ) {
+
+                document.getElementById("station-result").innerText =
+                    "ACCESS GRANTED.";
+
+                document.getElementById("coordinates-section").style.display =
+                    "block";
+
+                document.getElementById("coordinates-section").scrollIntoView({
+                    behavior: "smooth"
+                });
+
+            } else {
+
+                document.getElementById("station-result").innerText =
+                    "ACCESS DENIED.";
+
+            }
+
+        }
+
+
+        // SECOND PART – COORDINATES
+
+        function checkCoordinates() {
+
+            let coordinates = document.getElementById("coordinates").value
+                .trim()
+                .toLowerCase()
+                .replace(/\s+/g, "");
+
+
+            /*
+                A3
+            */
+
+            if (
+                coordinates === "a3"
+            ) {
+
+                document.getElementById("result").innerText =
+                    "ACCESS GRANTED.";
+
+                window.location.href = "mission05.html";
+
+            } else {
+
+                document.getElementById("result").innerText =
+                    "ACCESS DENIED.";
+
+            }
+
+        }
+
+
+        // CLUE
+
+        function showHint() {
+
+            document.getElementById("hint").style.display =
+                "block";
+
+        }
+
+
+        function closeHint() {
+
+            document.getElementById("hint").style.display =
+                "none";
+
+        }
+
+
+    </script>
+
+
+</body>
+
+</html>
